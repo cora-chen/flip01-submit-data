@@ -1,0 +1,1151 @@
+%
+% ---------------------------------------------------------------
+% Copyright (C) 2012-2018 Gang Li
+% ---------------------------------------------------------------
+%
+% This work is the default powerdot-tuliplab style test file and may be
+% distributed and/or modified under the conditions of the LaTeX Project Public
+% License, either version 1.3 of this license or (at your option) any later
+% version. The latest version of this license is in
+% http://www.latex-project.org/lppl.txt and version 1.3 or later is part of all
+% distributions of LaTeX version 2003/12/01 or later.
+%
+% This work has the LPPL maintenance status "maintained".
+%
+% This Current Maintainer of this work is Gang Li.
+%
+%
+
+\documentclass[
+ size=14pt,
+ paper=smartboard,  %a4paper, smartboard, screen
+ mode=present, 		%present, handout, print
+ display=slides, 	% slidesnotes, notes, slides
+ style=tuliplab,  	% TULIP Lab style
+ pauseslide,
+ fleqn,leqno]{powerdot}
+
+
+\usepackage{cancel}
+\usepackage{caption}
+\usepackage{stackengine}
+\usepackage{smartdiagram}
+\usepackage{attrib}
+\usepackage{amssymb}
+\usepackage{amsmath} 
+\usepackage{amsthm} 
+\usepackage{mathtools}
+\usepackage{rotating}
+\usepackage{graphicx}
+\usepackage{boxedminipage}
+\usepackage{rotate}
+\usepackage{calc}
+\usepackage[absolute]{textpos}
+\usepackage{psfrag,overpic}
+\usepackage{fouriernc}
+\usepackage{pstricks,pst-3d,pst-grad,pstricks-add,pst-text,pst-node,pst-tree}
+\usepackage{moreverb,epsfig,subfigure}
+\usepackage{color}
+\usepackage{booktabs}
+\usepackage{etex}
+\usepackage{breqn}
+\usepackage{multirow}
+\usepackage{natbib}
+\usepackage{bibentry}
+\usepackage{gitinfo2}
+\usepackage{siunitx}
+\usepackage{nicefrac}
+%\usepackage{geometry}
+%\geometry{verbose,letterpaper}
+\usepackage{media9}
+\usepackage{animate}
+%\usepackage{movie15}
+\usepackage{auto-pst-pdf}
+
+\usepackage{breakurl}
+\usepackage{fontawesome}
+\usepackage{xcolor}
+\usepackage{multicol}
+
+
+
+\usepackage{verbatim}
+\usepackage[utf8]{inputenc}
+\usepackage{dtk-logos}
+\usepackage{tikz}
+\usepackage{adigraph}
+%\usepackage{tkz-graph}
+\usepackage{hyperref}
+%\usepackage{ulem}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usepackage{fontawesome}
+
+
+\usepackage{todonotes}
+% \usepackage{pst-rel-points}
+\usepackage{animate}
+\usepackage{fontawesome}
+
+\usepackage{listings}
+\lstset{frameround=fttt,
+frame=trBL,
+stringstyle=\ttfamily,
+backgroundcolor=\color{yellow!20},
+basicstyle=\footnotesize\ttfamily}
+\lstnewenvironment{code}{
+\lstset{frame=single,escapeinside=`',
+backgroundcolor=\color{yellow!20},
+basicstyle=\footnotesize\ttfamily}
+}{}
+
+
+\usepackage{hyperref}
+\hypersetup{ % TODO: PDF meta Data
+  pdftitle={Presentation Title},
+  pdfauthor={Gang Li},
+  pdfpagemode={FullScreen},
+  pdfborder={0 0 0}
+}
+
+
+% \usepackage{auto-pst-pdf}
+% package to show source code
+
+\definecolor{LightGray}{rgb}{0.9,0.9,0.9}
+\newlength{\pixel}\setlength\pixel{0.000714285714\slidewidth}
+\setlength{\TPHorizModule}{\slidewidth}
+\setlength{\TPVertModule}{\slideheight}
+\newcommand\highlight[1]{\fbox{#1}}
+\newcommand\icite[1]{{\footnotesize [#1]}}
+
+\newcommand\twotonebox[2]{\fcolorbox{pdcolor2}{pdcolor2}
+{#1\vphantom{#2}}\fcolorbox{pdcolor2}{white}{#2\vphantom{#1}}}
+\newcommand\twotoneboxo[2]{\fcolorbox{pdcolor2}{pdcolor2}
+{#1}\fcolorbox{pdcolor2}{white}{#2}}
+\newcommand\vpspace[1]{\vphantom{\vspace{#1}}}
+\newcommand\hpspace[1]{\hphantom{\hspace{#1}}}
+\newcommand\COMMENT[1]{}
+
+\newcommand\placepos[3]{\hbox to\z@{\kern#1
+        \raisebox{-#2}[\z@][\z@]{#3}\hss}\ignorespaces}
+
+\renewcommand{\baselinestretch}{1.2}
+
+
+\newcommand{\draftnote}[3]{
+	\todo[author=#2,color=#1!30,size=\footnotesize]{\textsf{#3}}	}
+% TODO: add yourself here:
+%
+\newcommand{\gangli}[1]{\draftnote{blue}{GLi:}{#1}}
+\newcommand{\shaoni}[1]{\draftnote{green}{sn:}{#1}}
+\newcommand{\gliMarker}
+	{\todo[author=GLi,size=\tiny,inline,color=blue!40]
+	{Gang Li has worked up to here.}}
+\newcommand{\snMarker}
+	{\todo[author=Sn,size=\tiny,inline,color=green!40]
+	{Shaoni has worked up to here.}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% title
+% TODO: Customize to your Own Title, Name, Address
+%
+\title{Movie Review Sentiment Analysis}
+\author{
+Siyu Chen
+\\
+\\Xi'an Shiyou University
+
+}
+\date{\gitCommitterDate}
+
+
+% Customize the setting of slides
+\pdsetup{
+% TODO: Customize the left footer, and right footer
+rf=\href{http://www.tulip.org.au}{
+Last Changed by: \textsc{\gitCommitterName}\ \gitVtagn-\gitAbbrevHash\ (\gitAuthorDate)
+},
+cf={Movie Review Sentiment Analysis},
+}
+
+
+\begin{document}
+
+\maketitle
+
+%\begin{slide}{Overview}
+%\tableofcontents[content=sections]
+%\end{slide}
+
+
+%%==========================================================================================
+%%
+\begin{slide}[toc=,bm=]{Overview}
+\tableofcontents[content=currentsection,type=1]
+\end{slide}
+%%
+%%==========================================================================================
+
+
+\section{Problem Definition}
+
+
+%%==========================================================================================
+%%
+\begin{slide}{Problem Description}
+\begin{center}
+\twotonebox{\rotatebox{90}{Description}}{\parbox{.86\textwidth}
+{The Rotten Tomatoes movie review dataset is a corpus of movie reviews used for sentiment analysis.You are asked to label phrases on a scale of five values.
+\begin{itemize}
+\item The sentences have been shuffled from their original order. Each Sentence has been parsed into many phrases by the Stanford parser.
+\item Each Sentence has been parsed into many phrases by the Stanford parser.
+\item Each phrase has a PhraseId. Each sentence has a SentenceId.
+\item Phrases that are repeated (such as short/common words) are only included once in the data.
+\end{itemize}
+}}
+
+\end{center}
+\bigskip
+\begin{center}
+\end{center}
+\bigskip
+
+%%==========================================================================================
+\begin{note}
+First, I will introduce the problem definition.
+In the real life,
+a teacher may be interested in the characteristics that
+make one student obvious different from others.
+Or,
+NBA sports coaches would prefer to
+know the advantages and disadvantages of one player.
+Here, the player can be regarded as a query object.
+
+For example, team A has five players,
+each player has four features.
+The NBA sports coaches may want to know the features of
+player $1$ that are different from others.
+
+The above example can be seen as outlying aspects mining.
+The main purpose of outlying aspects mining is to identify
+the outstanding features of the query object.
+\end{note}
+%%==========================================================================================
+
+\end{slide}
+%%
+%%==========================================================================================
+
+
+%%==========================================================================================
+%%
+\begin{slide}[toc=,bm=]{Read Data}
+\begin{center}
+
+\end{center}
+
+\bigskip
+
+\twocolumn[
+\savevalue{lfrheight}=8cm,
+\savevalue{lfrprop}={
+linestyle=solid,framearc=.2,linewidth=1pt},
+rfrheight=\usevalue{lfrheight},
+rfrprop=\usevalue{lfrprop}
+]{
+  
+\begin{itemize}
+\item
+\smallskip
+\textcolor{orange}{train.tsv} :Contains the phrases and their associated sentiment labels. Provided a SentenceId can track which phrases belong to a single sentence.
+\smallskip
+\item
+\smallskip
+\textcolor{orange}{test.tsv} : contains just phrases. Assign a sentiment label to each phrase.
+\smallskip
+\item
+\smallskip
+\textcolor{orange}{sampleSubmission.csv} : A submission that meets the purpose.
+\smallskip
+\end{itemize}
+}{
+{The sentiment labels are:
+  \begin{itemize}
+    \item
+    \smallskip
+    \textcolor{orange}{1} : somewhat negative
+    \smallskip
+    \item
+    \smallskip
+    \textcolor{orange}{2} : neutral
+    \smallskip
+    \item
+    \smallskip
+    \textcolor{orange}{3} : somewhat positive
+    \smallskip
+    \item
+    \smallskip
+    \textcolor{orange}{4} : positive
+    \smallskip
+    \item
+    \smallskip
+    \textcolor{orange}{5} : negative
+    \smallskip
+    \end{itemize}
+}}
+
+%%==========================================================================================
+\begin{note}
+Based on the above example,
+I will compare the differences
+between outlying aspects mining and outlier detection.
+
+Outlying aspects mining aims to
+explain the distinctive aspects of the query object.
+The query object may or may not be an outlier.
+In contrast,
+Outlier detection aims to discover all possible
+outlying objects in the dataset.
+Without explaining how and why they are different.
+
+Let's go back to the NBA example,
+in that example,
+the output of the outlying aspects mining may be
+a combination of four features,
+but the output of the outlier detection may be any of those five players.
+\end{note}
+%%==========================================================================================
+
+\end{slide}
+%%
+
+%%==========================================================================================
+\section{Analysing Data}
+
+%%==========================================================================================
+%%
+
+%%==========================================================================================
+\begin{slide}{Data Statistics}
+
+  \begin{itemize}
+  \item Statistic the data in the training set.
+  \end{itemize}
+  
+  \begin{table}
+  \setlength{\abovecaptionskip}{0pt}
+  \setlength{\belowcaptionskip}{10pt}
+  \centering
+  \caption{Statistic the data in the training set}
+  
+  \begin{tabular}{p{0.5cm}p{2.1cm}p{2.5cm}p{10.2cm}p{2.2cm}}
+  \hline
+    % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
+      & $PhraseId$ & $SentenceId$ & $Phrase$ & $Sentiment$ \\
+  \hline
+    $0$   & 1 & 1  & A series of escapades demonstrating the adage ...  & 1 \\
+    $1$   & 2  & 1  & A series of escapades demonstrating the adage ...  & 2 \\
+    $2$   & 3  & 1 & A series  & 2 \\
+    $3$   & 4  & 1  & A  & 2 \\
+    $4$   & 5    & 1  & series  & 2\\
+    $5$   & 6  & 1 & of escapades demonstrating the adage that & 2 \\
+    
+    
+  \hline
+  \end{tabular}
+  \end{table}
+  
+  %%==========================================================================================
+  \begin{note}
+  Now,
+  I am gonna use a synthetic dataset to verify our method.
+  
+  The dataset we used in our experiment contains $10$ groups,
+  each group consists of $10$ members,
+  and each member has $8$ features: $F_1$ to $F_8$.
+  
+  Table $5$ shows the original data of one group,
+  and the bold features represent the ground truth,
+  The ground truth include trivial outlying feature \{$F_1$\},
+  and non-trivial outlying subspace \{$F_2$, $F_4$\}.
+  \end{note}
+  %%==========================================================================================
+  
+  \end{slide}
+  \begin{slide}{}
+
+    \begin{itemize}
+    \item Statistic the data in the test set.
+    \end{itemize}
+    
+    \begin{table}
+    \setlength{\abovecaptionskip}{0pt}
+    \setlength{\belowcaptionskip}{10pt}
+    \centering
+    \caption{Statistic the data in the test set}
+    
+    \begin{tabular}{p{0.5cm}p{2.3cm}p{2.5cm}p{11cm}}
+    \hline
+      % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
+        & $PhraseId$ & $SentenceId$ & $Phrase$  \\
+    \hline
+      $0$   & 156061 & 8545  & An intermittently pleasing but mostly routine ...  \\
+      $1$   & 156062  & 8545  &An intermittently pleasing but mostly routine ...   \\
+      $2$   & 156063  & 8545 & An   \\
+      $3$   & 156064  & 8545  & intermittently pleasing but mostly routine effort  \\
+      $4$   & 156065    &8545  & intermittently pleasing but mostly routine  \\
+      
+      
+      
+    \hline
+    \end{tabular}
+    \end{table}
+    
+    %%==========================================================================================
+    \begin{note}
+    Now,
+    I am gonna use a synthetic dataset to verify our method.
+    
+    The dataset we used in our experiment contains $10$ groups,
+    each group consists of $10$ members,
+    and each member has $8$ features: $F_1$ to $F_8$.
+    
+    Table $5$ shows the original data of one group,
+    and the bold features represent the ground truth,
+    The ground truth include trivial outlying feature \{$F_1$\},
+    and non-trivial outlying subspace \{$F_2$, $F_4$\}.
+    \end{note}
+    %%==========================================================================================
+    
+    \end{slide}
+%%==========================================================================================
+\begin{slide}[toc=,bm=]{Dataframe Analysis}
+
+  \begin{itemize}
+  \item
+  To better process the data, we need to do the following:
+  
+  \begin{itemize}
+  \item
+  Count the total data of training set and test set.
+  
+  train shape: (156060, 4) 
+  
+  test shape: (66292, 3)
+  \item
+  Check to see if there is a free value.
+  \item
+  Count the unique sentences in the training set and the test set.
+  
+  train: 8529 
+  
+  test: 3310
+  \item
+  Create a data set with only complete sentences. \\
+  Add a label for the sentiment value.
+  \end{itemize}
+  \end{itemize}
+  
+  %%==========================================================================================
+  \begin{note}
+  The second challenge is how to evaluate the outlying degree of
+  the query group between different aspects.
+  
+  In that case,
+  we need to design a scoring function to measure the outlying degree.
+  But adopting an appropriate scoring function without dimension bias still remains a problem.
+  \end{note}
+  %%==========================================================================================
+  
+  \end{slide}
+
+
+  \begin{slide}{Create Dataset }
+
+    \begin{itemize}
+    \item Exploring data will give cleaner graphs that aren't biased toward longer sentences.
+    \end{itemize}
+    
+    \begin{table}
+    \setlength{\abovecaptionskip}{0pt}
+    \setlength{\belowcaptionskip}{10pt}
+    \centering
+    \caption{A data set containing only full sentences}
+    
+    \begin{tabular}{p{0.5cm}p{2.1cm}p{2.7cm}p{7cm}p{2.2cm}p{2.2cm}}
+    \hline
+      % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
+        & $PhraseId$ & $SentenceId$ & $Phrase$ & $Sentiment$ &$sent\_label$ \\
+    \hline
+      $0$   & 1 & 1  & A series of escapades demonstrating the adage ...  & 1 &Somewhat Negative\\
+      $63$   & 64  & 2  & This quiet , introspective and entertaining in...  & 4 &Positive\\
+      $81$   & 82  & 3 & Even fans of Ismail Merchant 's work , I suspe...  & 1 &Somewhat Negative\\
+      $116$   & 117  & 4  & A positively thrilling combination of ethnogra...  & 3 &Somewhat Positive\\
+      $156$   & 157    & 5  & Aggressive self-glorification and a manipulati...  & 1&Somewhat Negative\\
+  
+      
+      
+    \hline
+    \end{tabular}
+    \end{table}
+    
+    %%==========================================================================================
+    \begin{note}
+    Now,
+    I am gonna use a synthetic dataset to verify our method.
+    
+    The dataset we used in our experiment contains $10$ groups,
+    each group consists of $10$ members,
+    and each member has $8$ features: $F_1$ to $F_8$.
+    
+    Table $5$ shows the original data of one group,
+    and the bold features represent the ground truth,
+    The ground truth include trivial outlying feature \{$F_1$\},
+    and non-trivial outlying subspace \{$F_2$, $F_4$\}.
+    \end{note}
+    %%==========================================================================================
+    
+    \end{slide}
+%%
+
+%%
+%%==========================================================================================
+
+
+%%==========================================================================================
+%%
+
+\section{NLP Analysis}
+
+\begin{slide}[toc=,bm=]{TF-IDF Algorithm}
+
+  \begin{itemize}
+  \item
+  Model of TF-IDF algorithm
+  
+  \vspace{1.2cm}
+  
+  \begin{centering}
+   
+  $ TF-IDF (d, w) = TF (d, w) *IDF(w)$
+  
+  
+  \end{centering}
+  
+  \begin{itemize}
+  
+  \item
+  $TF(d,w)$ $\Leftrightarrow$ Frequency of occurrence of w in document d.
+  \item
+  $IDF(w) = log\frac{N}{N(w)}$
+  \item
+  N $\Leftrightarrow$ The total number of documents in a corpuss.
+  \item
+  N(w)$\Leftrightarrow$ How many documents does the w appear in.
+  
+  \end{itemize}
+  \end{itemize}
+  
+  %%==========================================================================================
+  \begin{note}
+  Base on the earth mover distance,
+  we can calculate the outlying degree using the formula shown on the screen.
+  
+  This formula is the outlying degree scoring function,
+  n represents the number of competitive groups.
+  $h_{k_s}$ is the histogram of $G_k$ in the subspace s.
+  \end{note}
+  %%==========================================================================================
+  
+  \end{slide}
+%%==========================================================================================
+\begin{slide}[toc=,bm=]{Deal With Stop Words}
+
+  \begin{itemize}
+  \item
+  Process stop words to find the most valuable ones.
+  
+  \begin{itemize}
+  \item
+  Add non-helpful stopwords to stopword list.
+  \item
+  Scikit-learn provides a TfidfVectorizer class, which has the ability to remove common stop words (like a, the, and, or).
+  \item
+  Create bag of word vectorizer for comparison in evaluation section.
+  
+ 
+  \end{itemize}
+  \end{itemize}
+  
+  %%==========================================================================================
+  \begin{note}
+  The second challenge is how to evaluate the outlying degree of
+  the query group between different aspects.
+  
+  In that case,
+  we need to design a scoring function to measure the outlying degree.
+  But adopting an appropriate scoring function without dimension bias still remains a problem.
+  \end{note}
+  %%==========================================================================================
+  
+  \end{slide}
+%%
+\begin{slide}{Create TF-IDF Graphics}
+  \begin{itemize}
+    \item
+    Look at the graphs below 
+    \begin{itemize}
+      \item
+      The words with the highest tf-idf score in negative sentiment class.
+      
+     
+      \end{itemize}
+    \end{itemize}
+    
+    \begin{figure}
+      \centering
+      \selectcolormodel{rgb}
+      %\missingfigure{Testing.}
+      \includegraphics[width=0.6\textwidth,natwidth=866,natheight=600]{figures/ns.eps}
+      \caption{negative sentiment class}\label{Checking for outliers}
+    \end{figure}
+    
+    %%==========================================================================================
+    \begin{note}
+    Last,
+    we use the outlying degree to identify the specific group outlying aspects.
+    
+    The pseudo code of GOAM algorithm is as follows.
+    The input is the group data,
+    the output is outlying aspects of specific group ($G_1$).
+    
+    The details of the algorithm I will use an example to explain.
+    \end{note}
+%%==========================================================================================
+
+\end{slide}
+%%
+%%==========================================================================================
+\begin{slide}[toc=,bm=]{}
+  \twocolumn
+  {
+    
+  \begin{itemize}
+  \item
+  \smallskip
+  The words with the highest tf-idf score in neutral sentiment class.
+
+ \end{itemize}
+  \vspace{0.75cm}
+  %\vspace{0.1cm}
+  \begin{figure}
+    \centering
+    \selectcolormodel{rgb}
+    %\missingfigure{Testing.}
+    \includegraphics[width=1.05\textwidth,natwidth=896,natheight=500]{figures/nt.eps}
+    \caption{neutral sentiment class}\label{Checking for outliers}
+  \end{figure}
+  }
+  {
+  
+  \begin{itemize}
+  \item
+  The words with the highest tf-idf score in positive sentiment class.
+  
+
+  \end{itemize}
+  \bigskip
+  \begin{figure}
+    \centering
+    \selectcolormodel{rgb}
+    %\missingfigure{Testing.}
+    \includegraphics[width=1.05\textwidth,natwidth=843,natheight=500]{figures/ps.eps}
+    \caption{positive sentiment class}\label{Checking for outliers}
+  \end{figure}
+  }
+  
+  %%==========================================================================================
+  \begin{note}
+  In this research paper,
+  we proposed the group outlying aspects mining.
+  Now,
+  let me summarize the differences between group outlying aspects mining and outlying aspects mining.
+  
+  Group outlying aspects mining mainly focuses on the differences between groups.
+  But outlying aspects mining mainly concentrates on the differences between objects.
+  The target of group outlying aspects mining can be seen as many points.
+  While the target of outlying aspects mining can be regarded as one point.
+  
+  In the NBA example,
+  group outlying aspects mining focuses on the advantages
+  or disadvantages of one team,
+  however,
+  outlying aspects mining focuses on the advantages or disadvantages of one player.
+  \end{note}
+  %%==========================================================================================
+  
+  \end{slide}
+
+
+  \begin{slide}[toc=,bm=]{}
+    \twocolumn
+    {
+      
+    \begin{itemize}
+    \item
+    \smallskip
+    The highest tf-idf score in somewhat negative sentiment class.
+  
+   \end{itemize}
+    \vspace{0.75cm}
+    %\vspace{0.1cm}
+    \begin{figure}
+      \centering
+      \selectcolormodel{rgb}
+      %\missingfigure{Testing.}
+      \includegraphics[width=1.0\textwidth,natwidth=840,natheight=550]{figures/sns.eps}
+      \caption{somewhat negative sentiment}\label{Checking for outliers}
+    \end{figure}
+    }
+    {
+    
+    \begin{itemize}
+    \item
+    The highest tf-idf score in somewhat positive sentiment class.
+    
+  
+    \end{itemize}
+    \bigskip
+    \begin{figure}
+      \centering
+      \selectcolormodel{rgb}
+      %\missingfigure{Testing.}
+      \includegraphics[width=1.0\textwidth,natwidth=840,natheight=550]{figures/sps.eps}
+      \caption{somewhat positive sentiment}\label{Checking for outliers}
+    \end{figure}
+    }
+    
+    %%==========================================================================================
+    \begin{note}
+    In this research paper,
+    we proposed the group outlying aspects mining.
+    Now,
+    let me summarize the differences between group outlying aspects mining and outlying aspects mining.
+    
+    Group outlying aspects mining mainly focuses on the differences between groups.
+    But outlying aspects mining mainly concentrates on the differences between objects.
+    The target of group outlying aspects mining can be seen as many points.
+    While the target of outlying aspects mining can be regarded as one point.
+    
+    In the NBA example,
+    group outlying aspects mining focuses on the advantages
+    or disadvantages of one team,
+    however,
+    outlying aspects mining focuses on the advantages or disadvantages of one player.
+    \end{note}
+    %%==========================================================================================
+    
+    \end{slide}
+  \section{Feature Engineering}
+  \begin{slide}[toc=,bm=]{Feature Extraction}
+
+  \begin{itemize}
+  \item
+  We can extract new features from existing data.
+  
+  \begin{itemize}
+  \item
+  item_cnt_month:The monthly sales volume of each item in each store, sorted by month.
+  \item
+  hist_min(max)_item_price:Figure out the maximum and minimum monthly sales of each item by month.
+  \item
+  price_increace(decreace):How much each item's price changed from its (lowest/highest) historical price.
+  \item
+  item_cnt_max,item_cnt_mean,item_cnt_std:Maximum, minimum, average, and median monthly sales of each item in each store.
+  \end{itemize}
+  \end{itemize}
+  
+  %%==========================================================================================
+  \begin{note}
+  The second challenge is how to evaluate the outlying degree of
+  the query group between different aspects.
+  
+  In that case,
+  we need to design a scoring function to measure the outlying degree.
+  But adopting an appropriate scoring function without dimension bias still remains a problem.
+  \end{note}
+  %%==========================================================================================
+  
+  \end{slide}
+%%==========================================================================================
+\begin{slide}[toc=,bm=]{Partition training set}
+  \begin{itemize}
+  \item
+  \textcolor{orange}{Training set}
+  
+  \begin{itemize}
+  \item
+  Use the first three months to generate features and implement functionality.
+  
+  The 3-27 blocks are used for training.
+  
+  
+  
+  \end{itemize}
+  
+  \item
+  \textcolor{orange}{Validation set}
+  
+  \begin{itemize}
+  \item
+  the five blocks 28-32 are used for verification.\\
+  It is used to verify the accuracy of the model. The data is divided according to time because of its time characteristics.
+  
+  \end{itemize}
+  \item
+  \textcolor{orange}{Test set}
+  
+  \begin{itemize}
+  \item
+  We want to predict for "date_block_num" 34 so our test set will be block 33 and our predictions should reflect block 34 values.\\
+  In other words we use block 33 because we want to forecast values for block 34.
+  
+  \end{itemize}
+  \end{itemize}
+  
+  %%==========================================================================================
+  \begin{note}
+  In terms of the strengths of GOAM algorithm.
+  
+  I would like to talk about two main advantages of this algorithm.
+  First is the reduction of complexity.
+  GOAM algorithm utilizes the bottom up search method;
+  what's more,
+  it can reduce the size of candidate subspaces.
+  
+  Second is efficiency.
+  The previous time complexity is O($2^d$);
+  however,
+  current time complexity if only O($d*n^2$).
+  \end{note}
+  %%==========================================================================================
+  
+  \end{slide}
+%%
+\begin{slide}{Mean Encoding}
+  %Step Two - Outlying Degree Scoring
+  \begin{itemize}
+  \item
+  Done after the train/validation split.
+  
+  \begin{itemize}
+  \item
+  Find the average monthly sales volume by store number.
+  
+  \item
+  Find the average monthly sales volume by commodity number group.
+  \item
+  Find the average monthly sales volume of each item in each store, grouped by store and item number.
+  \item
+  Group by year, find the average annual sales.
+  \item
+  Group by month, find the average monthly sales.
+  \end{itemize}
+  \item
+  Add meand encoding features to train set.
+  Add meand encoding features to validation set.
+  
+  \end{itemize}
+  
+  %%==========================================================================================
+  \begin{note}
+  The second step is outlying degree scoring,
+  which is to evaluate the outlying degree between the target group and competitive groups.
+  
+  First,
+  we calculate the earth mover distance of one feature in different groups.
+  
+  The earth mover distance reflects the minimum mean distance between
+  the target group and other groups on one feature.
+  
+  Later on,
+  we utilize the EMD to measure the differences between groups.
+  \end{note}
+  %%==========================================================================================
+  
+  \end{slide}
+
+%%
+\section{Build Model}
+\begin{slide}[toc=,bm=]{Linear Regression and Random Forest}
+    %Step One - Group Feature Extraction}
+    \begin{itemize}
+      \item
+      Linear Regression
+      
+      \begin{itemize}
+      \item
+      Train rmse: 0.7347132326333324\\
+    Validation rmse: 0.7755311093532987
+      
+      
+      
+      \end{itemize}
+      
+      \item
+      Random Forest
+      
+      \begin{itemize}
+      \item
+      Train rmse: 0.6985868322226099\\
+  Validation rmse: 0.776123635046122
+      
+      \end{itemize}
+      
+      \end{itemize}
+      
+    
+  
+    
+    %%==========================================================================================
+    \begin{note}
+    Now, let me specifically explain what each step means.
+    The first step is group feature extraction.
+    we can take one group extraction as an example.
+    
+    We suppose to use $f_1$, $f_2$, $f_3$ to represent three features of $G_q$.
+    The values of $f_1$ are {$x_1$, $x_2$, $x_3$, $x_4$} and so on.
+    And the values of $f_2$ are {$y_2$, $y_2$, $y_1$, $x_2$} and so on.
+    
+    For feature $f_1$,
+    we use the histogram to illustrate feature $f_1$ after
+    counting the frequency of each value,
+    as show in figure 6 (a).
+    
+    Similarly,
+    we can also extract other features of the group
+    according to feature $f_1$.
+    \end{note}
+    %%==========================================================================================
+    
+    \end{slide}
+%%
+%%==========================================================================================
+\begin{slide}[toc=,bm=]{XGBoost}
+  %Step One - Group Feature Extraction}
+  \begin{itemize}
+  \item
+  \smallskip
+  Train rmse: 0.697475453300762\\
+Validation rmse: 0.798117433161014
+  \item
+  XGBoost feature importance.
+\end{itemize}
+  
+\begin{figure}
+  \centering
+  \selectcolormodel{rgb}
+  %\missingfigure{Testing.}
+  \includegraphics[width=0.7\textwidth,natwidth=1066,natheight=406]{figures/importance.eps}
+  \caption{Feature importance}\label{Checking for outliers}
+\end{figure}
+  
+  %%==========================================================================================
+  \begin{note}
+  Now, let me specifically explain what each step means.
+  The first step is group feature extraction.
+  we can take one group extraction as an example.
+  
+  We suppose to use $f_1$, $f_2$, $f_3$ to represent three features of $G_q$.
+  The values of $f_1$ are {$x_1$, $x_2$, $x_3$, $x_4$} and so on.
+  And the values of $f_2$ are {$y_2$, $y_2$, $y_1$, $x_2$} and so on.
+  
+  For feature $f_1$,
+  we use the histogram to illustrate feature $f_1$ after
+  counting the frequency of each value,
+  as show in figure 6 (a).
+  
+  Similarly,
+  we can also extract other features of the group
+  according to feature $f_1$.
+  \end{note}
+  %%==========================================================================================
+  
+  \end{slide}
+  \begin{slide}[toc=,bm=]{Create New Datasets}
+
+    \begin{table}[tb]
+    \setlength{\abovecaptionskip}{0pt}
+    \setlength{\belowcaptionskip}{10pt}
+    \centering
+    \caption{Predictions from first level models}
+    
+    \begin{tabular}{ c | c | c | c }
+    \toprule
+      % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
+          &  random_forest    & linear_regression  & xgboost    \\
+    \midrule
+    0 &  0.98   &  0.85  &0.44   \\
+    
+    1 &  0.06   &  0.06 &0.10\\
+    
+    2 &   0.85   &  1.79 &0.50\\
+    3 &   0.00   &  0.06 &0.10\\
+    4 &   0.06   &  0.06 &0.10\\
+    \bottomrule
+    \end{tabular}
+    \end{table}
+    
+    %%==========================================================================================
+    \begin{note}
+    From table $6$,
+    we can see that GOAM method can identify the trivial outlying features
+    and non-trivial outlying subspaces accurately and
+    it is obvious from the table that the accuracy of GOAM is the best,
+    which is 100\%.
+    
+    This is because the outlying aspects mining method
+    can't obtain the features of a group and the scoring function
+    is based on point to point metric.
+    Therefore,
+    it is not suitable for group outlying aspects mining.
+    \end{note}
+    %%==========================================================================================
+    
+    \end{slide}
+    %%
+    %%==========================================================================================
+\begin{slide}[toc=,bm=]{Ensembling}
+
+\begin{center}
+\begin{itemize}
+
+\item
+\smallskip
+\large
+{To combine the 1st level model predictions,to use a simple linear regression. \\
+This is the model that will combine the other ones to hopefully make an overall better prediction. \\
+
+\item
+Make predictions on test set using the 1st level models predictions as features.
+}
+
+\end{itemize}
+\end{center}
+\end{slide}
+\begin{slide}{Ensemble Diagram}
+  \begin{itemize}
+    \item
+    Look at the line chart below
+    \begin{itemize}
+      \item
+      Here is an image to help the understanding
+      
+      
+      \end{itemize}
+    \end{itemize}
+    
+    \begin{figure}
+      \centering
+      \selectcolormodel{rgb}
+      %\missingfigure{Testing.}
+      \includegraphics[width=0.7\textwidth,natwidth=919,natheight=398]{figures/ensemble.eps}
+      \caption{Ensemble diagram}\label{Checking for outliers}
+    \end{figure}
+    
+    %%==========================================================================================
+    \begin{note}
+    Last,
+    we use the outlying degree to identify the specific group outlying aspects.
+    
+    The pseudo code of GOAM algorithm is as follows.
+    The input is the group data,
+    the output is outlying aspects of specific group ($G_1$).
+    
+    The details of the algorithm I will use an example to explain.
+    \end{note}
+%%==========================================================================================
+
+\end{slide}
+\begin{slide}[toc=,bm=]{Output Dataframe}
+
+  \begin{table}[tb]
+  \setlength{\abovecaptionskip}{0pt}
+  \setlength{\belowcaptionskip}{10pt}
+  \centering
+  \caption{Output dataframe}
+  
+  \begin{tabular}{ c | c | c }
+  \toprule
+    % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
+    &  ID    & item_cnt_month      \\
+    \midrule
+    0 &  0  &  0.85     \\
+    
+    1 &  1   &  0.08 \\
+    
+    2 &   2   &  1.29 \\
+    3 &   3  &  0.06 \\
+    4 &   4   &  0.08 \\
+    5 &  5   &  0.96 \\
+    6 &  6  &  1.25 \\
+    7 &  7   &  0.21 \\
+    8 &  8   &  1.99 \\
+    9 &  9   &  0.06 \\
+  \bottomrule
+  \end{tabular}
+  \end{table}
+  
+  %%==========================================================================================
+  \begin{note}
+  From table $6$,
+  we can see that GOAM method can identify the trivial outlying features
+  and non-trivial outlying subspaces accurately and
+  it is obvious from the table that the accuracy of GOAM is the best,
+  which is 100\%.
+  
+  This is because the outlying aspects mining method
+  can't obtain the features of a group and the scoring function
+  is based on point to point metric.
+  Therefore,
+  it is not suitable for group outlying aspects mining.
+  \end{note}
+  %%==========================================================================================
+  
+  \end{slide}   
+
+%%==========================================================================================
+%%
+
+
+%%==========================================================================================
+% TODO: Contact Page
+\begin{wideslide}[toc=,bm=]{Contact Information}
+\centering
+\vspace{\stretch{1}}
+\twocolumn[
+lcolwidth=0.35\linewidth,
+rcolwidth=0.65\linewidth
+]
+{
+% \centerline{\includegraphics[scale=.2]{tulip-logo.eps}}
+}
+{
+\vspace{\stretch{1}}
+Thank you for listening!\\
+Siyu Chen\\
+Xi'an Shiyou University\\
+\begin{description}
+ \item[\textcolor{orange}{\faEnvelope}] \href{mailto:785987165@qq.com}
+ {\textsc{\footnotesize{785987165@qq.com}}}
+
+ 
+\end{description}
+}
+\vspace{\stretch{1}}
+\end{wideslide}
+
+\end{document}
+
+\endinput
