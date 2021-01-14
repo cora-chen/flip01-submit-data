@@ -53,7 +53,7 @@
 \colorlet{backgroundcolor}{blue!10}
 
  % Title, Author, Institute
-\title{Predict Future Sales}
+\title{What's Cooking}
 \author{Siyu Chen}
 \institute{ Xi'an Shiyou University, China \\
 }
@@ -95,27 +95,22 @@
 
 %%%%%%%%%% -------------------------------------------------------------------- %%%%%%%%%%
 \block{Introduction}{
-    To predict total sales for every product and store in the next month. 
-    Provided with daily historical sales data. The task is to forecast the total amount of products sold in every shop for the test set. Note that the list of shops and products slightly changes every month. Creating a robust model that can handle such situations.
+    Asks you to predict the category of a dish's cuisine given a list of its ingredients. Test and submit the results to see the experimental score.
      
   \vspace{.5cm}
   \centering
 
-  \begin{tabular}{c|c} 
+  \begin{tabular}{ c | c | c }
     \toprule
-        % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
-        Fields  & Field to explain\\
+    ID &  Cuisine    & Ingredients      \\
     \midrule
-    shop\_id & unique identifier for a store. \\
-    item\_id & a unique identifier for a product. \\
-    item\_category\_id  & a unique identifier for a category. \\
-    item\_cnt\_day & quantity of products sold. \\
-    item\_price & the current price of the goods. \\
-    date\_block\_num & a consecutive month. \\
-    item\_name & product name. \\
-    shop\_name & shop name. \\
-       \bottomrule
-  \end{tabular}
+    10259 &  greek & romaine lettuce, black olives, grape tomatoes...\\
+    25693 & southernus &plain flour, ground pepper, salt, tomatoes, g...\\
+    20130  & filipino &eggs, pepper, salt, mayonaise, cooking oil, g... \\
+    22213 & indian &water, vegetable oil, wheat, salt]\\
+    13162& indian& black pepper, shallots, cornflour, cayenne pe...\\
+    \bottomrule
+\end{tabular}
   \vspace{.2cm}
   
 }
@@ -124,13 +119,28 @@
 
 
 %%%%%%%%%% -------------------------------------------------------------------- %%%%%%%%%%
-\block{Data Processing}{
-\begin{itemize}
-  \item Use only shop\_ID and item\_ID that appear in the test set.
-  \item Use only data whose price is greater than 0.
-  \item Delete the unwanted columns, aggregate them monthly, and get a new data set.
-  \item Remove outliers.
-  \item Drop the text features.
+\block{Data Analysis}{
+    \begin{itemize}
+        \item
+        To better process the data, we need to do the following:
+        
+        \begin{itemize}
+        \item
+        Count the total data of training set and test set.
+        
+        train shape: 39774
+        
+        test shape: 9944
+        \item
+        Maximum Number of Ingredients in a Dish:  65
+        \item
+        Minimum Number of Ingredients in a Dish:  1
+        
+        train: 8529 
+        
+        test: 3310
+       
+        \end{itemize}
 \end{itemize}
 
 
@@ -151,41 +161,26 @@
 %%%%%%%%%% -------------------------------------------------------------------- %%%%%%%%%%
 \block{Data Visualization}{
     
-    \item Draw line graph of average monthly sales and total monthly sales, average monthly sales were rising and peaking in December.
+    \item Number of receipes by Cuisine. Italian cuisine dominates all cuisine.
 
 \begin{tikzfigure}%[Overall architecture of \emph{GOAM} algorithm]
-     \includegraphics[width=0.6\linewidth]{figures/line.png}
+     \includegraphics[width=0.6\linewidth]{figures/ns.eps}
         
     \end{tikzfigure}
     
-        \item By visualizing by category, category 30 sells best, and only a few items sell well.
-    
-        \item Grouping by store number, most stores sell about the same, with only three doing particularly well.
-    
-        %   1) Group Feature Extraction,
+        \item Ingredients in a dish distribution.
+        \begin{tikzfigure}%[Overall architecture of \emph{GOAM} algorithm]
+            \includegraphics[width=0.6\linewidth]{figures/cu.eps}
+        \end{tikzfigure}
+        \item Salt is the largest share of all the Greek ingredients.
+        \begin{tikzfigure}%[Overall architecture of \emph{GOAM} algorithm]
+            \includegraphics[width=0.6\linewidth]{figures/15.eps}
+        \end{tikzfigure}
+            %   1) Group Feature Extraction,
 %    2) Outlying Degree Scoring, and
 %    3) Outlying Aspects Identification.
 
-\begin{center}
-    \begin{minipage}{0.8\linewidth}
-    \centering
-    \begin{tikzfigure}%[Overall architecture of \emph{GOAM} algorithm]
-        \includegraphics[width=0.8\linewidth]{figures/catg.png}
-    
-       \end{tikzfigure}%
-       {\small{Grouping by category}}
-    \end{minipage}
-    \hfill
-    \begin{minipage}{0.8\linewidth}
-        \centering
-        \begin{tikzfigure}%[Overall architecture of \emph{GOAM} algorithm]
-            \includegraphics[width=0.8\linewidth]{figures/shop.png}
-        
-           \end{tikzfigure}%
-           {\small{Grouping by shop\_id}}
-        \end{minipage}
-    
-\end{center}
+
 
 }
 %%%%%%%%%% -------------------------------------------------------------------- %%%%%%%%%%
@@ -196,29 +191,46 @@
  %Second column with first block's top edge aligned with with previous column's top.
 
 %%%%%%%%%% -------------------------------------------------------------------- %%%%%%%%%%
-\block{Feature Engineering}{
+\block{NLP Analysis}{
 
     \begin{itemize}
-    \item
-    The first 3-27 blocks are used for training.
-    \item
-    the five blocks 28-32 are used for verification.
-    \item
-    test set will be block 33 and our predictions should reflect block 34 values.
-    \item
-    Mean Encoding:
-    \begin{itemize}
         \item
-        Find the average monthly sales volume by store number.
+        Model of TF-IDF algorithm
+        
+        \vspace{1.2cm}
+        
+        \begin{centering}
+         
+        $ TF-IDF (d, w) = TF (d, w) *IDF(w)$
+        
+        
+        \end{centering}
+        
+        \begin{itemize}
         
         \item
-        Find the average monthly sales volume by commodity number group.
+        $TF(d,w)$ $\Leftrightarrow$ Frequency of occurrence of w in document d.
         \item
-        Find the average monthly sales volume of each item in each store.
+        $IDF(w) = log\frac{N}{N(w)}$
         \item
-        Group by year, find the average annual sales.
+        N $\Leftrightarrow$ The total number of documents in a corpuss.
         \item
-        Group by month, find the average monthly sales.
+        N(w)$\Leftrightarrow$ How many documents does the w appear in.
+        \end{itemize}
+        \begin{itemize}
+            \item
+            Steps.
+            
+            \begin{itemize}
+            \item
+            The counting matrix of words is converted to TF-IDF representation, and then normalized.
+            \item
+            Scikit-learn provides a TfidfVectorizer class, which has the ability to remove common stop words (like a, the, and, or).
+            \item
+            TF-IDF tends to filter out common words and retain important words.
+            
+           
+            \end{itemize}
         \end{itemize}
 \end{itemize}
 
@@ -228,59 +240,26 @@
 
 
 %%%%%%%%%% -------------------------------------------------------------------- %%%%%%%%%%
-\block[titleleft]{Build Model}
+\block[titleleft]{Modeling}
 {
     \begin{itemize}
-        \item
-        \smallskip
-        linear Regression\\
-        Train rmse: 0.7347132326333324\\
-        Validation rmse: 0.7755311093532987
-        \item
-        \smallskip
-        Random Forest\\
-        Train rmse: 0.6985868322226099\\
-        Validation rmse: 0.776123635046122
-        \item
-        \smallskip
-        XGBoost\\
-        Train rmse: 0.697475453300762\\
-Validation rmse: 0.798117433161014
-    \end{itemize}
-    XGBoost feature importance.
-    \begin{center}
-        \begin{minipage}{0.5\linewidth}
-        \centering
-        \begin{tikzfigure}%[Overall architecture of \emph{GOAM} algorithm]
-            \includegraphics[width=1.0\linewidth]{figures/importance.png}
-        
-           \end{tikzfigure}%
-           {\small{Feature importance}}
-        \end{minipage}
-        \hfill
-        
-        
-    \end{center}
     
-    Output the predictions of the first level model.
+        \smallskip
+        \item
+        Logistic Regressio\\
+        Random seeds are not fixed and generate random sequences.\\
+        Use the logistic regression model in sklearn.\\
+        Score:0.787711182622687.
+        \item
+        \smallskip
+        Ensemble Model\\
+        Ensemble in Sklearn is called to integrate the two classifiers, logistic regression and SVM.\\
+  in the way of soft voting, to show the accuracy.\\ 
+  Score:0.8119469026548672. \\ 
 
-\vspace{.5cm}
-\centering
-\begin{tabular}{ c | c | c | c }
-    \toprule
-    &  random\_forest    & linear\_regression &xgboost\\
-    \toprule
-    0 &  0.98   &  0.85  &0.44   \\
-    
-    1 &  0.06   &  0.06 &0.10\\
-    
-    2 &   0.85   &  1.79 &0.50\\
-    3 &   0.00   &  0.06 &0.10\\
-    4 &   0.06   &  0.06 &0.10\\
-    \bottomrule
-\end{tabular}
+  By comparing the accuracy of the two models, we found that the integrated accuracy is higher than that of a single classifier.
            
-
+    \end{itemize}
 }
 %%%%%%%%%% -------------------------------------------------------------------- %%%%%%%%%%
 
@@ -288,7 +267,7 @@ Validation rmse: 0.798117433161014
 % Second column - second block
 %%%%%%%%%% -------------------------------------------------------------------- %%%%%%%%%%
 \block[titlewidthscale=1, bodywidthscale=1]
-{Ensembling}
+{Create Submission}
 {
     
     \begin{itemize}
@@ -296,15 +275,7 @@ Validation rmse: 0.798117433161014
         \item
         \smallskip
         \large
-        {To combine the 1st level model predictions,to use a simple linear regression. 
-
-        \item
-        Trained on validation set using the 1st level models predictions as features.
-        
-        Make predictions on test set using the 1st level models predictions as features.
-        
-        Train rmse: 0.7654489715389068
-        \item
+        {
         Output Dataframe:
         }
         
@@ -315,32 +286,42 @@ Validation rmse: 0.798117433161014
 \centering
 \begin{tabular}{ c | c | c }
     \toprule
-    &  ID    & item\_cnt\_month      \\
+    &  ID    & Cuisine \\
     \midrule
-    0 &  0  &  0.85     \\
+    0 &  18009    &  british  \\
     
-    1 &  1   &  0.08 \\
+    1 &  28583    &  southern\_us \\
     
-    2 &   2   &  1.29 \\
-    3 &   3  &  0.06 \\
-    4 &   4   &  0.08 \\
-    5 &  5   &  0.96 \\
-    6 &  6  &  1.25 \\
-    7 &  7   &  0.21 \\
-    8 &  8   &  1.99 \\
-    9 &  9   &  0.06 \\
+    2 &   41580    &  italian \\
+    3 &   29752    &  cajun\_creole \\
+    4 &   35687    &  italian    \\
+    5 &   38527    &  southern\_us\\
     \bottomrule
 \end{tabular}
-\begin{itemize}
-    \item 
-    \item 
-    
-\end{itemize}
+
 
 
 }
 %%%%%%%%%% -------------------------------------------------------------------- %%%%%%%%%%
+\block{Reflection and Summary}{
+    \begin{itemize}
+        \item
+        Disadvantages and optimizations:
+        
+        \begin{itemize}
+        \item
+        Dishes can contain a variety of ingredients, and the same ingredients may vary in number and number, so the integredients need to be filtered.
+        \item
+        KNN mainly depends on the surrounding limited adjacent samples, rather than on the method of discriminating class domain to determine the category.
+        \item
+        KNN basically does not learn, resulting in a slower prediction speed than logistic regression and other algorithms.
+        
+       
+        \end{itemize}
+\end{itemize}
 
+
+}
 
 % Bottomblock
 %%%%%%%%%% -------------------------------------------------------------------- %%%%%%%%%%
@@ -374,8 +355,8 @@ Validation rmse: 0.798117433161014
 \end{minipage}
 \begin{minipage}{0.7\linewidth}
 { \centering
-Predict Future Sales,
-  16/10/2020, xi'an, China
+What's Cooking,
+  14/1/2021, xi'an, China
 }
 \end{minipage}
 }

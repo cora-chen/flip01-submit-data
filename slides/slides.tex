@@ -150,7 +150,7 @@ basicstyle=\footnotesize\ttfamily}
 % title
 % TODO: Customize to your Own Title, Name, Address
 %
-\title{Movie Review Sentiment Analysis}
+\title{What's Cooking}
 \author{
 Siyu Chen
 \\
@@ -166,7 +166,7 @@ Siyu Chen
 rf=\href{http://www.tulip.org.au}{
 Last Changed by: \textsc{\gitCommitterName}\ \gitVtagn-\gitAbbrevHash\ (\gitAuthorDate)
 },
-cf={Movie Review Sentiment Analysis},
+cf={What's Cooking},
 }
 
 
@@ -196,12 +196,12 @@ cf={Movie Review Sentiment Analysis},
 \begin{slide}{Problem Description}
 \begin{center}
 \twotonebox{\rotatebox{90}{Description}}{\parbox{.86\textwidth}
-{The Rotten Tomatoes movie review dataset is a corpus of movie reviews used for sentiment analysis.You are asked to label phrases on a scale of five values.
+{Asks you to predict the category of a dish's cuisine given a list of its ingredients. 
 \begin{itemize}
-\item The sentences have been shuffled from their original order. Each Sentence has been parsed into many phrases by the Stanford parser.
-\item Each Sentence has been parsed into many phrases by the Stanford parser.
-\item Each phrase has a PhraseId. Each sentence has a SentenceId.
-\item Phrases that are repeated (such as short/common words) are only included once in the data.
+\item 1. Dish data loading;
+\item 2. Preprocess seasoning and visualization data set structure;
+\item 3. Loading Logistic Regression Model and Ensemble Model training;
+\item 4. Test and submit the results to see the experimental score.
 \end{itemize}
 }}
 
@@ -258,11 +258,11 @@ rfrprop=\usevalue{lfrprop}
 \begin{itemize}
 \item
 \smallskip
-\textcolor{orange}{train.tsv} :Contains the phrases and their associated sentiment labels. Provided a SentenceId can track which phrases belong to a single sentence.
+\textcolor{orange}{train.tsv} :The data used for training that contains ID, cuisine, and ingredients.
 \smallskip
 \item
 \smallskip
-\textcolor{orange}{test.tsv} : contains just phrases. Assign a sentiment label to each phrase.
+\textcolor{orange}{test.tsv} : After training the model with the training data set, use the test data set to generate a file similar to sample_submission.csv.
 \smallskip
 \item
 \smallskip
@@ -270,28 +270,21 @@ rfrprop=\usevalue{lfrprop}
 \smallskip
 \end{itemize}
 }{
-{The sentiment labels are:
+{Infer the characteristics of its cuisine by the seasonings used:
   \begin{itemize}
     \item
     \smallskip
-    \textcolor{orange}{1} : somewhat negative
+    \textcolor{orange}{ID} : Each data sequence number
     \smallskip
     \item
     \smallskip
-    \textcolor{orange}{2} : neutral
+    \textcolor{orange}{ingredients} : The reason for classification is also the most important feature.
     \smallskip
     \item
     \smallskip
-    \textcolor{orange}{3} : somewhat positive
+    \textcolor{orange}{cuisine} : It's the target of the classification,The total dish coefficient is 20,such as'brazilian' 'british' 'chinese' 'filipino'.
     \smallskip
-    \item
-    \smallskip
-    \textcolor{orange}{4} : positive
-    \smallskip
-    \item
-    \smallskip
-    \textcolor{orange}{5} : negative
-    \smallskip
+    
     \end{itemize}
 }}
 
@@ -342,15 +335,14 @@ but the output of the outlier detection may be any of those five players.
   \begin{tabular}{p{0.5cm}p{2.1cm}p{2.5cm}p{10.2cm}p{2.2cm}}
   \hline
     % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
-      & $PhraseId$ & $SentenceId$ & $Phrase$ & $Sentiment$ \\
+      & $ID$ & $Cuisine$ & $Ingredients$  \\
   \hline
-    $0$   & 1 & 1  & A series of escapades demonstrating the adage ...  & 1 \\
-    $1$   & 2  & 1  & A series of escapades demonstrating the adage ...  & 2 \\
-    $2$   & 3  & 1 & A series  & 2 \\
-    $3$   & 4  & 1  & A  & 2 \\
-    $4$   & 5    & 1  & series  & 2\\
-    $5$   & 6  & 1 & of escapades demonstrating the adage that & 2 \\
-    
+    $0$   & 10259 & greek  & [romaine lettuce, black olives, grape tomatoes... \\
+    $1$   & 25693  & southern_us  & [plain flour, ground pepper, salt, tomatoes, g... \\
+    $2$   & 20130  & filipino & [eggs, pepper, salt, mayonaise, cooking oil, g... \\
+    $3$   & 22213  & indian  & [water, vegetable oil, wheat, salt] \\
+    $4$   & 13162    & indian  & [black pepper, shallots, cornflour, cayenne pe... \\
+   
     
   \hline
   \end{tabular}
@@ -373,52 +365,7 @@ but the output of the outlier detection may be any of those five players.
   %%==========================================================================================
   
   \end{slide}
-  \begin{slide}{}
-
-    \begin{itemize}
-    \item Statistic the data in the test set.
-    \end{itemize}
-    
-    \begin{table}
-    \setlength{\abovecaptionskip}{0pt}
-    \setlength{\belowcaptionskip}{10pt}
-    \centering
-    \caption{Statistic the data in the test set}
-    
-    \begin{tabular}{p{0.5cm}p{2.3cm}p{2.5cm}p{11cm}}
-    \hline
-      % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
-        & $PhraseId$ & $SentenceId$ & $Phrase$  \\
-    \hline
-      $0$   & 156061 & 8545  & An intermittently pleasing but mostly routine ...  \\
-      $1$   & 156062  & 8545  &An intermittently pleasing but mostly routine ...   \\
-      $2$   & 156063  & 8545 & An   \\
-      $3$   & 156064  & 8545  & intermittently pleasing but mostly routine effort  \\
-      $4$   & 156065    &8545  & intermittently pleasing but mostly routine  \\
-      
-      
-      
-    \hline
-    \end{tabular}
-    \end{table}
-    
-    %%==========================================================================================
-    \begin{note}
-    Now,
-    I am gonna use a synthetic dataset to verify our method.
-    
-    The dataset we used in our experiment contains $10$ groups,
-    each group consists of $10$ members,
-    and each member has $8$ features: $F_1$ to $F_8$.
-    
-    Table $5$ shows the original data of one group,
-    and the bold features represent the ground truth,
-    The ground truth include trivial outlying feature \{$F_1$\},
-    and non-trivial outlying subspace \{$F_2$, $F_4$\}.
-    \end{note}
-    %%==========================================================================================
-    
-    \end{slide}
+  
 %%==========================================================================================
 \begin{slide}[toc=,bm=]{Dataframe Analysis}
 
@@ -430,20 +377,18 @@ but the output of the outlier detection may be any of those five players.
   \item
   Count the total data of training set and test set.
   
-  train shape: (156060, 4) 
+  train shape: 39774
   
-  test shape: (66292, 3)
+  test shape: 9944
   \item
-  Check to see if there is a free value.
+  Maximum Number of Ingredients in a Dish:  65
   \item
-  Count the unique sentences in the training set and the test set.
+  Minimum Number of Ingredients in a Dish:  1
   
   train: 8529 
   
   test: 3310
-  \item
-  Create a data set with only complete sentences. \\
-  Add a label for the sentiment value.
+ 
   \end{itemize}
   \end{itemize}
   
@@ -460,62 +405,179 @@ but the output of the outlier detection may be any of those five players.
   
   \end{slide}
 
-
-  \begin{slide}{Create Dataset }
-
+  \section{Visualization and Data Preprocessing}
+  \begin{slide}{Number of receipes by Cuisine}
     \begin{itemize}
-    \item Exploring data will give cleaner graphs that aren't biased toward longer sentences.
+      \item
+      Look at the graphs below 
+      \begin{itemize}
+        \item
+        Italian cuisine dominates all cuisine.
+        
+       
+        \end{itemize}
+      \end{itemize}
+      
+      \begin{figure}
+        \centering
+        \selectcolormodel{rgb}
+        %\missingfigure{Testing.}
+        \includegraphics[width=0.6\textwidth,natwidth=866,natheight=550]{figures/ns.eps}
+        \caption{number of receipes by cuisine}\label{Checking for outliers}
+      \end{figure}
+      
+      %%==========================================================================================
+      \begin{note}
+      Last,
+      we use the outlying degree to identify the specific group outlying aspects.
+      
+      The pseudo code of GOAM algorithm is as follows.
+      The input is the group data,
+      the output is outlying aspects of specific group ($G_1$).
+      
+      The details of the algorithm I will use an example to explain.
+      \end{note}
+  %%==========================================================================================
+  
+  \end{slide}
+%%
+
+%%
+%%==========================================================================================
+\begin{slide}{Ingredients in a Dish}
+  \begin{itemize}
+    \item
+    Look at the graphs below 
+    \begin{itemize}
+      \item
+      Ingredients in a dish distribution.
+      
+     
+      \end{itemize}
     \end{itemize}
     
-    \begin{table}
-    \setlength{\abovecaptionskip}{0pt}
-    \setlength{\belowcaptionskip}{10pt}
-    \centering
-    \caption{A data set containing only full sentences}
-    
-    \begin{tabular}{p{0.5cm}p{2.1cm}p{2.7cm}p{7cm}p{2.2cm}p{2.2cm}}
-    \hline
-      % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
-        & $PhraseId$ & $SentenceId$ & $Phrase$ & $Sentiment$ &$sent\_label$ \\
-    \hline
-      $0$   & 1 & 1  & A series of escapades demonstrating the adage ...  & 1 &Somewhat Negative\\
-      $63$   & 64  & 2  & This quiet , introspective and entertaining in...  & 4 &Positive\\
-      $81$   & 82  & 3 & Even fans of Ismail Merchant 's work , I suspe...  & 1 &Somewhat Negative\\
-      $116$   & 117  & 4  & A positively thrilling combination of ethnogra...  & 3 &Somewhat Positive\\
-      $156$   & 157    & 5  & Aggressive self-glorification and a manipulati...  & 1&Somewhat Negative\\
-  
-      
-      
-    \hline
-    \end{tabular}
-    \end{table}
+    \begin{figure}
+      \centering
+      \selectcolormodel{rgb}
+      %\missingfigure{Testing.}
+      \includegraphics[width=0.6\textwidth,natwidth=866,natheight=550]{figures/cu.eps}
+      \caption{distribution}\label{Checking for outliers}
+    \end{figure}
     
     %%==========================================================================================
     \begin{note}
-    Now,
-    I am gonna use a synthetic dataset to verify our method.
+    Last,
+    we use the outlying degree to identify the specific group outlying aspects.
     
-    The dataset we used in our experiment contains $10$ groups,
-    each group consists of $10$ members,
-    and each member has $8$ features: $F_1$ to $F_8$.
+    The pseudo code of GOAM algorithm is as follows.
+    The input is the group data,
+    the output is outlying aspects of specific group ($G_1$).
     
-    Table $5$ shows the original data of one group,
-    and the bold features represent the ground truth,
-    The ground truth include trivial outlying feature \{$F_1$\},
-    and non-trivial outlying subspace \{$F_2$, $F_4$\}.
+    The details of the algorithm I will use an example to explain.
     \end{note}
-    %%==========================================================================================
+%%==========================================================================================
+
+\end{slide}
+
+%%==========================================================================================
+\begin{slide}{Main Ingredients}
+  \begin{itemize}
+    \item
+    Look at the graphs below 
+    \begin{itemize}
+      \item
+      Salt is the largest share of all the Greek ingredients.
+      
+     
+      \end{itemize}
+    \end{itemize}
     
-    \end{slide}
-%%
-
-%%
+    \begin{figure}
+      \centering
+      \selectcolormodel{rgb}
+      %\missingfigure{Testing.}
+      \includegraphics[width=0.6\textwidth,natwidth=866,natheight=550]{figures/15.eps}
+      \caption{top 15 ingredients}\label{Checking for outliers}
+    \end{figure}
+    
+    %%==========================================================================================
+    \begin{note}
+    Last,
+    we use the outlying degree to identify the specific group outlying aspects.
+    
+    The pseudo code of GOAM algorithm is as follows.
+    The input is the group data,
+    the output is outlying aspects of specific group ($G_1$).
+    
+    The details of the algorithm I will use an example to explain.
+    \end{note}
 %%==========================================================================================
 
+\end{slide}
+%%%%%%%%%
+\begin{slide}[toc=,bm=]{Ingredients in Each Cuisine}
+  \twocolumn
+  {
+    
+  \begin{itemize}
+  \item
+  \smallskip
+  The proportion of ingredients in Mexican cuision.
 
-%%==========================================================================================
-%%
+ \end{itemize}
+  \vspace{0.4cm}
+  %\vspace{0.1cm}
+  \begin{figure}
+    \centering
+    \selectcolormodel{rgb}
+    %\missingfigure{Testing.}
+    \includegraphics[width=1.0\textwidth,natwidth=840,natheight=550]{figures/me.eps}
+    \caption{Mexican cuisine}\label{Checking for outliers}
+  \end{figure}
+  }
+  {
+  
+  \begin{itemize}
+  \item
+  The proportion of ingredients in Chinese cuision.
+  
 
+  \end{itemize}
+  \bigskip
+  \begin{figure}
+    \centering
+    \selectcolormodel{rgb}
+    %\missingfigure{Testing.}
+    \includegraphics[width=1.0\textwidth,natwidth=840,natheight=550]{figures/ch.eps}
+    \caption{Chinese cuisine}\label{Checking for outliers}
+  \end{figure}
+  }
+  
+  %%==========================================================================================
+  \begin{note}
+  In this research paper,
+  we proposed the group outlying aspects mining.
+  Now,
+  let me summarize the differences between group outlying aspects mining and outlying aspects mining.
+  
+  Group outlying aspects mining mainly focuses on the differences between groups.
+  But outlying aspects mining mainly concentrates on the differences between objects.
+  The target of group outlying aspects mining can be seen as many points.
+  While the target of outlying aspects mining can be regarded as one point.
+  
+  In the NBA example,
+  group outlying aspects mining focuses on the advantages
+  or disadvantages of one team,
+  however,
+  outlying aspects mining focuses on the advantages or disadvantages of one player.
+  \end{note}
+  %%==========================================================================================
+  
+  \end{slide}
+
+  %%%%%%%%%%%%%%%%%%
+  
+%%%%%%%%%%%%%
 \section{NLP Analysis}
 
 \begin{slide}[toc=,bm=]{TF-IDF Algorithm}
@@ -560,19 +622,19 @@ but the output of the outlier detection may be any of those five players.
   
   \end{slide}
 %%==========================================================================================
-\begin{slide}[toc=,bm=]{Deal With Stop Words}
+\begin{slide}[toc=,bm=]{TfidfVectorizer Grammar}
 
   \begin{itemize}
   \item
-  Process stop words to find the most valuable ones.
+  Steps.
   
   \begin{itemize}
   \item
-  Add non-helpful stopwords to stopword list.
+  The counting matrix of words is converted to TF-IDF representation, and then normalized.
   \item
   Scikit-learn provides a TfidfVectorizer class, which has the ability to remove common stop words (like a, the, and, or).
   \item
-  Create bag of word vectorizer for comparison in evaluation section.
+  TF-IDF tends to filter out common words and retain important words.
   
  
   \end{itemize}
@@ -591,227 +653,44 @@ but the output of the outlier detection may be any of those five players.
   
   \end{slide}
 %%
-\begin{slide}{Create TF-IDF Graphics}
-  \begin{itemize}
-    \item
-    Look at the graphs below 
-    \begin{itemize}
-      \item
-      The words with the highest tf-idf score in negative sentiment class.
-      
-     
-      \end{itemize}
-    \end{itemize}
-    
-    \begin{figure}
-      \centering
-      \selectcolormodel{rgb}
-      %\missingfigure{Testing.}
-      \includegraphics[width=0.6\textwidth,natwidth=866,natheight=600]{figures/ns.eps}
-      \caption{negative sentiment class}\label{Checking for outliers}
-    \end{figure}
-    
-    %%==========================================================================================
-    \begin{note}
-    Last,
-    we use the outlying degree to identify the specific group outlying aspects.
-    
-    The pseudo code of GOAM algorithm is as follows.
-    The input is the group data,
-    the output is outlying aspects of specific group ($G_1$).
-    
-    The details of the algorithm I will use an example to explain.
-    \end{note}
-%%==========================================================================================
 
-\end{slide}
+  %%==========================================================================================
+  
+
+
+
 %%
-%%==========================================================================================
-\begin{slide}[toc=,bm=]{}
-  \twocolumn
-  {
-    
+\section{Modeling}
+\begin{slide}[toc=,bm=]{Logistic Regression and Ensemble Model}
   \begin{itemize}
   \item
-  \smallskip
-  The words with the highest tf-idf score in neutral sentiment class.
-
- \end{itemize}
-  \vspace{0.75cm}
-  %\vspace{0.1cm}
-  \begin{figure}
-    \centering
-    \selectcolormodel{rgb}
-    %\missingfigure{Testing.}
-    \includegraphics[width=1.05\textwidth,natwidth=896,natheight=500]{figures/nt.eps}
-    \caption{neutral sentiment class}\label{Checking for outliers}
-  \end{figure}
-  }
-  {
+  \textcolor{orange}{Logistic Regression}
   
   \begin{itemize}
   \item
-  The words with the highest tf-idf score in positive sentiment class.
-  
-
-  \end{itemize}
-  \bigskip
-  \begin{figure}
-    \centering
-    \selectcolormodel{rgb}
-    %\missingfigure{Testing.}
-    \includegraphics[width=1.05\textwidth,natwidth=843,natheight=500]{figures/ps.eps}
-    \caption{positive sentiment class}\label{Checking for outliers}
-  \end{figure}
-  }
-  
-  %%==========================================================================================
-  \begin{note}
-  In this research paper,
-  we proposed the group outlying aspects mining.
-  Now,
-  let me summarize the differences between group outlying aspects mining and outlying aspects mining.
-  
-  Group outlying aspects mining mainly focuses on the differences between groups.
-  But outlying aspects mining mainly concentrates on the differences between objects.
-  The target of group outlying aspects mining can be seen as many points.
-  While the target of outlying aspects mining can be regarded as one point.
-  
-  In the NBA example,
-  group outlying aspects mining focuses on the advantages
-  or disadvantages of one team,
-  however,
-  outlying aspects mining focuses on the advantages or disadvantages of one player.
-  \end{note}
-  %%==========================================================================================
-  
-  \end{slide}
-
-
-  \begin{slide}[toc=,bm=]{}
-    \twocolumn
-    {
-      
-    \begin{itemize}
-    \item
-    \smallskip
-    The highest tf-idf score in somewhat negative sentiment class.
-  
-   \end{itemize}
-    \vspace{0.75cm}
-    %\vspace{0.1cm}
-    \begin{figure}
-      \centering
-      \selectcolormodel{rgb}
-      %\missingfigure{Testing.}
-      \includegraphics[width=1.0\textwidth,natwidth=840,natheight=550]{figures/sns.eps}
-      \caption{somewhat negative sentiment}\label{Checking for outliers}
-    \end{figure}
-    }
-    {
-    
-    \begin{itemize}
-    \item
-    The highest tf-idf score in somewhat positive sentiment class.
-    
-  
-    \end{itemize}
-    \bigskip
-    \begin{figure}
-      \centering
-      \selectcolormodel{rgb}
-      %\missingfigure{Testing.}
-      \includegraphics[width=1.0\textwidth,natwidth=840,natheight=550]{figures/sps.eps}
-      \caption{somewhat positive sentiment}\label{Checking for outliers}
-    \end{figure}
-    }
-    
-    %%==========================================================================================
-    \begin{note}
-    In this research paper,
-    we proposed the group outlying aspects mining.
-    Now,
-    let me summarize the differences between group outlying aspects mining and outlying aspects mining.
-    
-    Group outlying aspects mining mainly focuses on the differences between groups.
-    But outlying aspects mining mainly concentrates on the differences between objects.
-    The target of group outlying aspects mining can be seen as many points.
-    While the target of outlying aspects mining can be regarded as one point.
-    
-    In the NBA example,
-    group outlying aspects mining focuses on the advantages
-    or disadvantages of one team,
-    however,
-    outlying aspects mining focuses on the advantages or disadvantages of one player.
-    \end{note}
-    %%==========================================================================================
-    
-    \end{slide}
-  \section{Feature Engineering}
-  \begin{slide}[toc=,bm=]{Feature Extraction}
-
-  \begin{itemize}
+  Random seeds are not fixed and generate random sequences.
   \item
-  We can extract new features from existing data.
-  
-  \begin{itemize}
+  Use the logistic regression model in sklearn.
   \item
-  item_cnt_month:The monthly sales volume of each item in each store, sorted by month.
-  \item
-  hist_min(max)_item_price:Figure out the maximum and minimum monthly sales of each item by month.
-  \item
-  price_increace(decreace):How much each item's price changed from its (lowest/highest) historical price.
-  \item
-  item_cnt_max,item_cnt_mean,item_cnt_std:Maximum, minimum, average, and median monthly sales of each item in each store.
-  \end{itemize}
-  \end{itemize}
-  
-  %%==========================================================================================
-  \begin{note}
-  The second challenge is how to evaluate the outlying degree of
-  the query group between different aspects.
-  
-  In that case,
-  we need to design a scoring function to measure the outlying degree.
-  But adopting an appropriate scoring function without dimension bias still remains a problem.
-  \end{note}
-  %%==========================================================================================
-  
-  \end{slide}
-%%==========================================================================================
-\begin{slide}[toc=,bm=]{Partition training set}
-  \begin{itemize}
-  \item
-  \textcolor{orange}{Training set}
-  
-  \begin{itemize}
-  \item
-  Use the first three months to generate features and implement functionality.
-  
-  The 3-27 blocks are used for training.
+  Score:0.787711182622687.
   
   
   
   \end{itemize}
   
   \item
-  \textcolor{orange}{Validation set}
+  \textcolor{orange}{Ensemble Model}
   
   \begin{itemize}
   \item
-  the five blocks 28-32 are used for verification.\\
-  It is used to verify the accuracy of the model. The data is divided according to time because of its time characteristics.
+  Ensemble in Sklearn is called to integrate the two classifiers, logistic regression and SVM.
   
-  \end{itemize}
-  \item
-  \textcolor{orange}{Test set}
+  \item 
+  in the way of soft voting, to show the accuracy
+  \item   
+  Score:0.8119469026548672.  
+\end{itemize}
   
-  \begin{itemize}
-  \item
-  We want to predict for "date_block_num" 34 so our test set will be block 33 and our predictions should reflect block 34 values.\\
-  In other words we use block 33 because we want to forecast values for block 34.
-  
-  \end{itemize}
   \end{itemize}
   
   %%==========================================================================================
@@ -833,147 +712,12 @@ but the output of the outlier detection may be any of those five players.
   
   \end{slide}
 %%
-\begin{slide}{Mean Encoding}
-  %Step Two - Outlying Degree Scoring
-  \begin{itemize}
-  \item
-  Done after the train/validation split.
-  
-  \begin{itemize}
-  \item
-  Find the average monthly sales volume by store number.
-  
-  \item
-  Find the average monthly sales volume by commodity number group.
-  \item
-  Find the average monthly sales volume of each item in each store, grouped by store and item number.
-  \item
-  Group by year, find the average annual sales.
-  \item
-  Group by month, find the average monthly sales.
-  \end{itemize}
-  \item
-  Add meand encoding features to train set.
-  Add meand encoding features to validation set.
-  
-  \end{itemize}
-  
-  %%==========================================================================================
-  \begin{note}
-  The second step is outlying degree scoring,
-  which is to evaluate the outlying degree between the target group and competitive groups.
-  
-  First,
-  we calculate the earth mover distance of one feature in different groups.
-  
-  The earth mover distance reflects the minimum mean distance between
-  the target group and other groups on one feature.
-  
-  Later on,
-  we utilize the EMD to measure the differences between groups.
-  \end{note}
-  %%==========================================================================================
-  
-  \end{slide}
-
-%%
-\section{Build Model}
-\begin{slide}[toc=,bm=]{Linear Regression and Random Forest}
-    %Step One - Group Feature Extraction}
-    \begin{itemize}
-      \item
-      Linear Regression
-      
-      \begin{itemize}
-      \item
-      Train rmse: 0.7347132326333324\\
-    Validation rmse: 0.7755311093532987
-      
-      
-      
-      \end{itemize}
-      
-      \item
-      Random Forest
-      
-      \begin{itemize}
-      \item
-      Train rmse: 0.6985868322226099\\
-  Validation rmse: 0.776123635046122
-      
-      \end{itemize}
-      
-      \end{itemize}
-      
-    
-  
-    
-    %%==========================================================================================
-    \begin{note}
-    Now, let me specifically explain what each step means.
-    The first step is group feature extraction.
-    we can take one group extraction as an example.
-    
-    We suppose to use $f_1$, $f_2$, $f_3$ to represent three features of $G_q$.
-    The values of $f_1$ are {$x_1$, $x_2$, $x_3$, $x_4$} and so on.
-    And the values of $f_2$ are {$y_2$, $y_2$, $y_1$, $x_2$} and so on.
-    
-    For feature $f_1$,
-    we use the histogram to illustrate feature $f_1$ after
-    counting the frequency of each value,
-    as show in figure 6 (a).
-    
-    Similarly,
-    we can also extract other features of the group
-    according to feature $f_1$.
-    \end{note}
-    %%==========================================================================================
-    
-    \end{slide}
-%%
 %%==========================================================================================
-\begin{slide}[toc=,bm=]{XGBoost}
-  %Step One - Group Feature Extraction}
-  \begin{itemize}
-  \item
-  \smallskip
-  Train rmse: 0.697475453300762\\
-Validation rmse: 0.798117433161014
-  \item
-  XGBoost feature importance.
-\end{itemize}
-  
-\begin{figure}
-  \centering
-  \selectcolormodel{rgb}
-  %\missingfigure{Testing.}
-  \includegraphics[width=0.7\textwidth,natwidth=1066,natheight=406]{figures/importance.eps}
-  \caption{Feature importance}\label{Checking for outliers}
-\end{figure}
-  
-  %%==========================================================================================
-  \begin{note}
-  Now, let me specifically explain what each step means.
-  The first step is group feature extraction.
-  we can take one group extraction as an example.
-  
-  We suppose to use $f_1$, $f_2$, $f_3$ to represent three features of $G_q$.
-  The values of $f_1$ are {$x_1$, $x_2$, $x_3$, $x_4$} and so on.
-  And the values of $f_2$ are {$y_2$, $y_2$, $y_1$, $x_2$} and so on.
-  
-  For feature $f_1$,
-  we use the histogram to illustrate feature $f_1$ after
-  counting the frequency of each value,
-  as show in figure 6 (a).
-  
-  Similarly,
-  we can also extract other features of the group
-  according to feature $f_1$.
-  \end{note}
+
   %%==========================================================================================
   
-  \end{slide}
-  \begin{slide}[toc=,bm=]{Create New Datasets}
+
+  \begin{slide}[toc=,bm=]{Create Submission}
 
     \begin{table}[tb]
     \setlength{\abovecaptionskip}{0pt}
@@ -981,18 +725,19 @@ Validation rmse: 0.798117433161014
     \centering
     \caption{Predictions from first level models}
     
-    \begin{tabular}{ c | c | c | c }
+    \begin{tabular}{ c | c | c }
     \toprule
       % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
-          &  random_forest    & linear_regression  & xgboost    \\
+          &  ID    & Cuisine \\
     \midrule
-    0 &  0.98   &  0.85  &0.44   \\
+    0 &  18009    &  british  \\
     
-    1 &  0.06   &  0.06 &0.10\\
+    1 &  28583    &  southern_us \\
     
-    2 &   0.85   &  1.79 &0.50\\
-    3 &   0.00   &  0.06 &0.10\\
-    4 &   0.06   &  0.06 &0.10\\
+    2 &   41580    &  italian \\
+    3 &   29752    &  cajun_creole \\
+    4 &   35687    &  italian    \\
+    5 &   38527    &  southern_us\\
     \bottomrule
     \end{tabular}
     \end{table}
@@ -1016,7 +761,7 @@ Validation rmse: 0.798117433161014
     \end{slide}
     %%
     %%==========================================================================================
-\begin{slide}[toc=,bm=]{Ensembling}
+\begin{slide}[toc=,bm=]{Reflection and Summary}
 
 \begin{center}
 \begin{itemize}
@@ -1024,96 +769,18 @@ Validation rmse: 0.798117433161014
 \item
 \smallskip
 \large
-{To combine the 1st level model predictions,to use a simple linear regression. \\
-This is the model that will combine the other ones to hopefully make an overall better prediction. \\
+{Dishes can contain a variety of ingredients, and the same ingredients may vary in number and number, so the integredients need to be filtered.
+  \item 
+  KNN mainly depends on the surrounding limited adjacent samples, rather than on the method of discriminating class domain to determine the category.\\
 
 \item
-Make predictions on test set using the 1st level models predictions as features.
+KNN basically does not learn, resulting in a slower prediction speed than logistic regression and other algorithms.
 }
 
 \end{itemize}
 \end{center}
 \end{slide}
-\begin{slide}{Ensemble Diagram}
-  \begin{itemize}
-    \item
-    Look at the line chart below
-    \begin{itemize}
-      \item
-      Here is an image to help the understanding
-      
-      
-      \end{itemize}
-    \end{itemize}
-    
-    \begin{figure}
-      \centering
-      \selectcolormodel{rgb}
-      %\missingfigure{Testing.}
-      \includegraphics[width=0.7\textwidth,natwidth=919,natheight=398]{figures/ensemble.eps}
-      \caption{Ensemble diagram}\label{Checking for outliers}
-    \end{figure}
-    
-    %%==========================================================================================
-    \begin{note}
-    Last,
-    we use the outlying degree to identify the specific group outlying aspects.
-    
-    The pseudo code of GOAM algorithm is as follows.
-    The input is the group data,
-    the output is outlying aspects of specific group ($G_1$).
-    
-    The details of the algorithm I will use an example to explain.
-    \end{note}
-%%==========================================================================================
 
-\end{slide}
-\begin{slide}[toc=,bm=]{Output Dataframe}
-
-  \begin{table}[tb]
-  \setlength{\abovecaptionskip}{0pt}
-  \setlength{\belowcaptionskip}{10pt}
-  \centering
-  \caption{Output dataframe}
-  
-  \begin{tabular}{ c | c | c }
-  \toprule
-    % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
-    &  ID    & item_cnt_month      \\
-    \midrule
-    0 &  0  &  0.85     \\
-    
-    1 &  1   &  0.08 \\
-    
-    2 &   2   &  1.29 \\
-    3 &   3  &  0.06 \\
-    4 &   4   &  0.08 \\
-    5 &  5   &  0.96 \\
-    6 &  6  &  1.25 \\
-    7 &  7   &  0.21 \\
-    8 &  8   &  1.99 \\
-    9 &  9   &  0.06 \\
-  \bottomrule
-  \end{tabular}
-  \end{table}
-  
-  %%==========================================================================================
-  \begin{note}
-  From table $6$,
-  we can see that GOAM method can identify the trivial outlying features
-  and non-trivial outlying subspaces accurately and
-  it is obvious from the table that the accuracy of GOAM is the best,
-  which is 100\%.
-  
-  This is because the outlying aspects mining method
-  can't obtain the features of a group and the scoring function
-  is based on point to point metric.
-  Therefore,
-  it is not suitable for group outlying aspects mining.
-  \end{note}
-  %%==========================================================================================
-  
-  \end{slide}   
 
 %%==========================================================================================
 %%

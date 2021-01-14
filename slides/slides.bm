@@ -2,11 +2,9 @@
 \pdbookmark{sec.1.slide}{sec.1}{4}{Problem Description}
 \pdbookmark{sec.2}{}{6}{Analysing Data}
 \pdbookmark{sec.2.slide}{sec.2}{7}{Data Statistics}
-\pdbookmark{sec.2.slide}{sec.2}{8}{}
-\pdbookmark{sec.2.slide}{sec.2}{10}{Create Dataset }
-\pdbookmark{sec.3}{}{11}{NLP Analysis}
-\pdbookmark{sec.3.slide}{sec.3}{14}{Create TF-IDF Graphics}
-\pdbookmark{sec.4}{}{17}{Feature Engineering}
-\pdbookmark{sec.4.slide}{sec.4}{20}{Mean Encoding}
-\pdbookmark{sec.5}{}{21}{Build Model}
-\pdbookmark{sec.5.slide}{sec.5}{26}{Ensemble Diagram}
+\pdbookmark{sec.3}{}{9}{Visualization and Data Preprocessing}
+\pdbookmark{sec.3.slide}{sec.3}{10}{Number of receipes by Cuisine}
+\pdbookmark{sec.3.slide}{sec.3}{11}{Ingredients in a Dish}
+\pdbookmark{sec.3.slide}{sec.3}{12}{Main Ingredients}
+\pdbookmark{sec.4}{}{14}{NLP Analysis}
+\pdbookmark{sec.5}{}{17}{Modeling}

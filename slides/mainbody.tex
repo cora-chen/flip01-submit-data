@@ -1,70 +1,148 @@
 %=================================================================
-\section{Github and LaTeX learning}\label{sec-intro}
+\vskip 0.9 cm%
+\section{INTRODUCTIONS}\label{sec-intro}
 \vskip 0.5 cm%
 
 \setlength{\parindent}{2em}
-\todo{The importance of the area}
-Browse the content of the syllabus,It took about three days and 4 hours of study every day.First completed the installation of Latex and Git, and configured the environment.
 
 
-\todo{What can be addressed by existing methods; Why those problems are challenges to existing methods?}
-By collecting LaTeX related videos, learn about latex article compilation, alignment, mathematical formulas, syntax highlighting, etc.
-
-\todo{What provides the motivation of this work? What are the research issues? What is the rationale of this work? }
-The learning of Git and GitHub is done by watching videos and practicing. Mainly learn how to clone files from remote warehouses and how to upload files to remote warehouses. Pay attention to conflicts in daily applications.
-
-\todo{What we have done and what are the contributions.}
-The learning of Git and GitHub is easier than LaTeX. The learning of LaTeX requires frequent access to materials and apply them in practice. Since I have not done too many LaTeX exercises, this part needs to be practiced frequently.
+Asks you to predict the category of a dish's cuisine given a list of its ingredients. Test and submit the results to see the experimental score.
 
 
-\section{SIT717 and Machine learning} \label{sec-preliminaries}
+  \begin{tabular}{ c | c | c }
+    \toprule
+    ID &  Cuisine    & Ingredients      \\
+    \midrule
+    10259 &  greek & romaine lettuce, black olives, grape tomatoes...\\
+    25693 & southernus &plain flour, ground pepper, salt, tomatoes, g...\\
+    20130  & filipino &eggs, pepper, salt, mayonaise, cooking oil, g... \\
+    22213 & indian &water, vegetable oil, wheat, salt]\\
+    13162& indian& black pepper, shallots, cornflour, cayenne pe...\\
+    \bottomrule
+\end{tabular}
+
+\vskip 0.9 cm%
+\section{DATA ANALYSIS} \label{sec-preliminaries}
 \vskip 0.5 cm%
 \setlength{\parindent}{2em}
-\todo{The importance of the area}
-I get documents about SIT717 in GitHub, learn the related videos, and study 5 hours a day for two days.
 
+To better process the data, we need to do the following:
 
-
-\todo{The problems faced by most current methods}
-I learn some data mining, data preprocessing basic concepts, K-means and K-medoids algorithm content by studying the course of Professor Li in the SIT717 folder.
-
-\todo{What can be addressed by existing methods; Why those problems are challenges to existing methods?}
-After learning a little about SIT717, I checked the video about machine learning and reviewed the basic knowledge of linear algebra and probability theory. 
 
 \begin{enumerate}[1]
-  \item Linear algebra operation rules.
-  \item directional derivative, gradient,Sample variance, conditional probability formula.
-  \item Supervised and unsupervised learning.
+ 
+  \item Count the total data of training set and test set.\\
+  train shape: 39774\\
+  test shape: 9944
+  \item
+        Maximum Number of Ingredients in a Dish:  65
+        \item
+        Minimum Number of Ingredients in a Dish:  1\\
+        train: 8529\\
+        test: 3310
 \end{enumerate}
-\todo{What can be addressed by existing methods; Why those problems are challenges to existing methods?}
-This part mainly learns theoretical knowledge, and I mainly focus on understanding concepts. However, calculations such as loss function and empirical risk still need to be combined with actual case theory to fully grasp.
-
-\gliMarker  %TODO: GLi Here
 
 
-\section{Python basics} \label{sec-method}
+
+\vskip 0.5cm%
+\section{NLP ANALYSIS} \label{sec-method}
 \vskip 0.5 cm%
 \setlength{\parindent}{2em}
-\todo{The problems faced by most current methods}
-I spent about two days learning python. After installing anaconda3, I started to learn the video of getting started with python.
-
-\todo{The importance of the area}
-Learned the python syntax format, calling functions, reading and writing files, importing third-party libraries and object-oriented programming.
-
-After two days of study, I probably mastered the basic python syntax and ran the code in the first three files of the git repository. But it still takes time to continue learning this part.
-\qwuMarker %TODO: QWu Here
-
-\section{Driver's license folder can be viewed publicly} \label{sec-experiment}
-\vskip 0.5 cm%
-\todo{The importance of the area}
-As cloud storage technology becomes more and more popular, you still have to bear risks when data is placed in the cloud, and similar events will occur in the future. The availability of cloud storage is good, but security is difficult to guarantee. Cloud storage merchants can definitely see the user's data, but merchants are subject to legal restrictions.
-
-Here Professor Li makes four suggestions:
 
 \begin{enumerate}[1]
-  \item Try to choose a cloud storage service with a high level of security.
-  \item Turn off some default automatic synchronization.
-  \item Enable secondary authentication when logging in to the cloud disk.
-  \item Data security experts can use third-party encryption software to encrypt their data.
+  \item
+  Model of TF-IDF algorithm:
+  \vskip 0.5 cm%
+  
+  \begin{centering}
+   
+  $ TF-IDF (d, w) = TF (d, w) *IDF(w)$
+  
+  
+  \end{centering}
+  \vskip 0.5 cm%
+  \begin{enumerate}
+  
+  \item
+  $TF(d,w)$ $\Leftrightarrow$ Frequency of occurrence of w in document d.
+  \item
+  $IDF(w) = log\frac{N}{N(w)}$
+  \item
+  N $\Leftrightarrow$ The total number of documents in a corpuss.
+  \item
+  N(w)$\Leftrightarrow$ How many documents does the w appear in.
+  \end{enumerate}
+  \item
+            The counting matrix of words is converted to TF-IDF representation, and then normalized.
+            \item
+            Scikit-learn provides a TfidfVectorizer class, which has the ability to remove common stop words (like a, the, and, or).
+            \item
+            TF-IDF tends to filter out common words and retain important words.
+            
+\end{enumerate}
+\newpage
+
+\vskip 0.9 cm%
+\section{MODELING} \label{sec-experiment}
+\vskip 0.5 cm%
+
+
+\begin{enumerate}[1]
+    
+  \smallskip
+  \item
+  Logistic Regressio:\\
+  Random seeds are not fixed and generate random sequences.\\
+  Use the logistic regression model in sklearn.\\
+  Score: 0.787711182622687.
+  \item
+  \smallskip
+  Ensemble Model:\\
+  Ensemble in Sklearn is called to integrate the two classifiers, logistic regression and SVM.\\
+in the way of soft voting, to show the accuracy.\\ 
+Score: 0.8119469026548672. \\ 
+By comparing the accuracy of the two models, we found that the integrated accuracy is higher than that of a single classifier.
+     
 \end{enumerate}
 
+\vskip 0.5 cm%
+\section{SUMMARY} \label{sec-experiment}
+\vskip 0.5 cm%
+
+\begin{enumerate}[1]
+
+  \item
+  \smallskip
+  \large
+  {
+  Output Dataframe:
+  }
+  
+\end{enumerate}
+
+
+\vspace{.5cm}
+\centering
+\begin{tabular}{ c | c | c }
+\toprule
+&  ID    & Cuisine \\
+\midrule
+0 &  18009    &  british  \\
+
+1 &  28583    &  southern\_us \\
+
+2 &   41580    &  italian \\
+3 &   29752    &  cajun\_creole \\
+4 &   35687    &  italian    \\
+5 &   38527    &  southern\_us\\
+\bottomrule
+\end{tabular}
+\vskip 0.3 cm%
+\begin{enumerate}[1]
+\item
+        Dishes can contain a variety of ingredients, and the same ingredients may vary in number and number, so the integredients need to be filtered.
+        \item
+        KNN mainly depends on the surrounding limited adjacent samples, rather than on the method of discriminating class domain to determine the category.
+        \item
+        KNN basically does not learn, resulting in a slower prediction speed than logistic regression and other algorithms.
+\end{enumerate}

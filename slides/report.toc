@@ -1,0 +1,6 @@
+\babel@toc {english}{}
+\contentsline {section}{\tocsection {}{1}{INTRODUCTIONS}}{2}{section.1}%
+\contentsline {section}{\tocsection {}{2}{DATA ANALYSIS}}{2}{section.2}%
+\contentsline {section}{\tocsection {}{3}{NLP ANALYSIS}}{2}{section.3}%
+\contentsline {section}{\tocsection {}{4}{MODELING}}{3}{section.4}%
+\contentsline {section}{\tocsection {}{5}{SUMMARY}}{3}{section.5}%
